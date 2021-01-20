@@ -1,0 +1,174 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 16px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /* background: linear-gradient(to right bottom, floralwhite, rgb(223, 223, 236)); */
+    background: rgba(41, 7, 236, 0.126);
+    background-repeat: no-repeat;
+}
+
+:root {
+    --color1: red;
+}
+
+.offStatus {
+    display: none;
+}
+
+
+
+
+/* Header Style */
+
+.app-header {
+    width: 100%;
+    height: 3.5rem;
+    background-image: linear-gradient(to right, darkblue, rgb(139, 0, 104));
+    text-align: center;
+}
+.app-header h1 {
+    color: aliceblue;
+    letter-spacing: 0.2rem;
+}
+
+/* Discussion Style */
+.discuss {
+    text-align: center;
+    margin: 1rem auto 0.5rem;
+}
+.discuss h3 {
+    font-size: 1.3rem;
+    letter-spacing: 0.1rem;
+    color: darkslategray;
+}
+
+/* Form Style - make Post */
+#form-container {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#form-container textarea, .form-comment textarea {
+    height: 4rem;
+    /* margin: 0rem auto 1rem; */
+    resize: none;
+    width: 360px;
+    border-radius: 9px;
+    background: grey;
+    cursor: context-menu;
+    font-size: 1rem;
+    padding-left: 0.3rem;
+}
+#form-container textarea:focus, .form-comment textarea:focus {
+    outline: none;
+    color: white;
+    border: none;
+    background-image: linear-gradient(to left, darkblue, rgb(139, 0, 104));
+}
+
+#form-container .post-btn {
+    background: rgb(91, 25, 196);
+    border: none;
+    padding: 0.6rem 1.3rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    color: #fff;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+}
+#form-container .post-btn:focus {
+    outline: none;
+}
+#form-container .post-btn:hover {
+    background-color: rgb(76, 25, 196);
+}
+.post-btn-container{
+    margin-top: 0.4rem;
+}
+
+
+
+
+/* Post-Container */
+.post-container {
+    width: 90%;
+    margin: 1.5em auto;
+}
+.post-container .postText {
+    text-align: justify;
+    background: white;
+    padding: 0.5rem 1rem;
+}
+
+.comment-btn {
+    text-decoration: none;
+    background-color: rgb(139, 0, 104);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+    transition: all 0.3s ease-in;
+}
+
+.comment-btn:hover {
+    background-color: rgb(139, 0, 74);
+}
+
+.form-comment {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-comment .comment-btn:focus {
+    outline: none
+}
+
+
+
+
+/* Comment Vote Style */
+
+.comment-vote {
+    background: whitesmoke;
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+}
+.comment-vote .vote-buttons {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+.comment-vote button {
+    border: none;   
+    padding: 0.5em 1em;
+    margin: 0 1rem;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+}
+.comment-vote button.up-vote{
+    background: rgb(37, 190, 37);
+}
+.comment-vote button.up-vote:hover{
+    background: rgb(37, 190, 7);
+}
+
+.comment-vote button.down-vote{
+    background: rgb(238, 38, 24);
+}
+.comment-vote button.down-vote:hover{
+    background: rgb(238, 38, 4);
+}
