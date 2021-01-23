@@ -17,9 +17,6 @@ body {
     --color1: red;
 }
 
-.offStatus {
-    display: none;
-}
 
 
 
@@ -61,6 +58,7 @@ body {
     /* margin: 0rem auto 1rem; */
     resize: none;
     width: 360px;
+    margin: 0 auto;
     border-radius: 9px;
     background: grey;
     cursor: context-menu;
@@ -108,7 +106,9 @@ body {
     text-align: justify;
     background: white;
     padding: 0.5rem 1rem;
+    font-size: 1.2rem;
 }
+
 
 .comment-btn {
     text-decoration: none;
@@ -121,6 +121,8 @@ body {
     box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
     transition: all 0.3s ease-in;
 }
+
+
 
 .comment-btn:hover {
     background-color: rgb(139, 0, 74);
@@ -143,14 +145,21 @@ body {
 /* Comment Vote Style */
 
 .comment-vote {
-    background: whitesmoke;
+    margin-top: 0.5rem;
+    background: rgb(168, 153, 153);
     /* display: flex; */
     /* flex-wrap: wrap; */
+}
+.comment-vote p {
+    text-align: justify;
+    padding: 0.5rem 1rem;
+    font-size: 1.15rem;
+    color: #222;
 }
 .comment-vote .vote-buttons {
     display: flex;
     justify-content: center;
-    padding: 1rem;
+    padding: 0.2rem;
 }
 .comment-vote button {
     border: none;   
@@ -159,6 +168,10 @@ body {
     border-radius: 5px;
     box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
 }
+.comment-vote button:focus {
+    outline: none;
+}
+
 .comment-vote button.up-vote{
     background: rgb(37, 190, 37);
 }
@@ -171,4 +184,9 @@ body {
 }
 .comment-vote button.down-vote:hover{
     background: rgb(238, 38, 4);
+}
+
+
+.offStatus {
+    display: none;
 }
