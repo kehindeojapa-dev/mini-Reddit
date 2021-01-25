@@ -179,36 +179,95 @@ const arrangeComment = () => {
      * - Append each item into the postsContainer.
      */
     setInterval(() => {
-        let sortedComment = [];
-        
-        let upVotes = document.querySelectorAll('.vote-buttons .votedUp');
-        let downVotes = document.querySelectorAll('vote-button .votedDown');
+        let discussComment = [];
+
         let comments = document.querySelectorAll('.vote-buttons');
         const postsContainer = document.querySelector('post-container');
-        commentsArray = Array.from(comments);
-        commentsArray.forEach(comment => {
-            let upCount = 0;
-            let downCount = 0;
-             Array.from(comment.childNodes).forEach(node =>{
-                 if(node.className == 'votedUp'){
-                     upCount++;
-                 } else if(node.className == 'votedDown') {
-                     downCount++;
-                 }
-             })
-            //  console.log(upCount-downCount);
-        })
-       
-        // console.log(comments);
-        // console.log(newDiscussion);
+        
+    
         let classA = 'a'
         for(let i = 0; i < newDiscussion.length; i++){
             let getThisComment = document.querySelectorAll(`.${classA} .vote-buttons`);     
-            sortedComment.push(getThisComment);
+            discussComment.push(getThisComment);
             classA = classA + 'a'
         }
-        console.log(sortedComment);
-    }, 2000);
+        discussCommentArray = Array.from(discussComment);
+        discussCommentArray.forEach(discuss => {
+            // console.log(discuss)
+            Array.from(discuss).forEach(node => {
+                let upCount = 0;
+                let downCount = 0;
+                Array.from(node.childNodes).forEach(childNode => {
+                    if(childNode.className == 'votedUp') {
+                        upCount++;
+                    } else if(childNode.className == 'votedDown') {
+                        downCount++;
+                    }
+                })
+                node.totalCount = upCount - downCount;
+                // console.log(`${node} ${node.totalCount}`);
+            })
+        })
+        let arr2 = [];
+        let arr3 = []
+        discussCommentArray.forEach(discuss => {
+            // create new array for a certain discussion
+            // to take the place of arr2.
+            let arr = createNewArray();
+            // console.log(arr);
+            arr = [];
+
+            discuss.forEach(comment => {
+                // console.log(comment.parentElement.innerHTML);
+                // comment.parentElement.isContentEditable = true;
+                arr.push(comment.parentElement);
+                arr.sort((a,b) => b.lastElementChild.totalCount - 
+                a.lastElementChild.totalCount);
+                // console.log(arr)
+                // arr.push(comment);
+                // arr.sort((a,b)=> b.totalCount - a.totalCount);
+            })
+            arr2.push(arr);
+            // console.log(arr2);
+            let sortComment = [];
+            classA = 'a'
+            for(let i = 0; i < newComment.length; i++){
+                let getAllComment = document.querySelector(`.${classA}`);     
+                sortComment.push(getAllComment);
+                classA = classA + 'a';
+            }
+                let i = 0;
+                let j = 0;
+            console.log(arr2[i][j])
+            sortComment.forEach(comment => {
+                Array.from(comment.children).forEach(node => {
+                    if(node.classList.contains('comment-vote')){
+                        node.innerHTML = '';
+                    for(let j = 0; j < arr2[i].length; j++){
+                        const newComment = document.createElement('div');
+                        newComment.classList.add('comment-vote');
+                        newComment.innerHTML = arr[i][j].innerHTML;
+                        comment.appendChild(newComment);
+                    }
+                }
+                i++;
+            //     // arr2.forEach(comments => {
+            //     //     comments.forEach(commentItem => {
+            //     //         // const newComment = document.createElement('div');
+            //     //         // newComment.classList.add('comment-vote');
+            //     //         // newComment.innerHTML = commentItem.innerHTML;
+            //     //         // comment.appendChild(newComment);
+            //     //         // console.log(arr2);
+            //     //         // console.log(commentItem.innerHTML);
+            //     //     })
+            //     // })
+            })
+            
+                
+            })
+        })
+        // console.log(arr2);
+    }, 10000);  
 }
 
 arrangeComment();
@@ -220,18 +279,23 @@ main.addEventListener('click', upDownVote);
 
 let newDiscussion = '';
 let newComment = '';
-
+let newArray = '';
 function newDiscussions(){
     newDiscussion = newDiscussion + 'a'
     return newDiscussion;
+}
+function createNewArray(){
+    newArray = newArray + 'r';
+    return newArray;
 }
 function newComments(){
     newComment = newComment + 'c';
     return newComment;
 }
 
-var numbers = [-4, 2, 5, 17, 3];
-numbers.sort(function(a, b) {
-  return b - a;
-});
-console.log(numbers);
+// var numbers = [-4, 2, 5, 17, 3];
+// numbers.sort(function(a, b) {
+//   return b - a;
+// });
+// console.log(numbers);
+
