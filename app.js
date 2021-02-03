@@ -66,7 +66,7 @@ postForm.addEventListener('submit', e => {
 
             <form action="#" class="form-comment offStatus">
                 
-                    <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
+                    <textarea name="comment" id="comment"></textarea>
                
                 
                     <button class="comment-btn commentBtn">comment</button>
@@ -107,7 +107,6 @@ const addComment = e => {
         //Add comment to the commentContainer(feeds)
         const postComment = document.createElement('div');
         postComment.classList.add('comment-vote');
-        postComment.classList.add(`${newComments()}`);
         postComment.innerHTML = `
             <p>${commentMessage.value}</p>
             <div class="vote-buttons">
@@ -115,7 +114,7 @@ const addComment = e => {
                 <button class="down-vote">DownVote</button>
             </div>
         `
-        //Check if comment value isnt empty
+        //Check if comment value isnt empty before posting is allowed
         if(commentMessage.value.length > 0){
             commentContainer.append(postComment);
             commentMessage.value = ''
@@ -125,6 +124,10 @@ const addComment = e => {
     }
 }
 
+
+/**
+ * Function to increase value of upvote and downvote of a button.
+ */
 const upDownVote = e => {
     arrayedClassList(e);
     if(arrayedItem.includes('up-vote')) {
@@ -168,32 +171,27 @@ const upDownVote = e => {
 
 
 /**
- * Arrange comments according to vote.
- * 
+ * Arrange comments of a discussion according to vote.
+ * runs every 10s
  */
 const arrangeComment = () => {
-    /**
-     * TODO
-     * - Use sort and compare using comment votedUp and VoteDown
-     * - Push it into a new array
-     * - Append each item into the postsContainer.
-     */
-    setInterval(() => {
-        let discussComment = [];
-
-        let comments = document.querySelectorAll('.vote-buttons');
-        const postsContainer = document.querySelector('post-container');
-        
     
-        let classA = 'a'
+    setInterval(() => {
+        let discussComment = []; //get each discussions
+    
+        let classA = 'a' 
         for(let i = 0; i < newDiscussion.length; i++){
             let getThisComment = document.querySelectorAll(`.${classA} .vote-buttons`);     
             discussComment.push(getThisComment);
             classA = classA + 'a'
         }
+
+        //Get a proper array form of the discussions container.
         discussCommentArray = Array.from(discussComment);
+
+        // For each comment in a discussion, it gets the upVote
+        // count and downCount count and give the comment a totalCount;
         discussCommentArray.forEach(discuss => {
-            // console.log(discuss)
             Array.from(discuss).forEach(node => {
                 let upCount = 0;
                 let downCount = 0;
@@ -205,97 +203,84 @@ const arrangeComment = () => {
                     }
                 })
                 node.totalCount = upCount - downCount;
-                // console.log(`${node} ${node.totalCount}`);
             })
         })
-        let arr2 = [];
-        let arr3 = []
-        discussCommentArray.forEach(discuss => {
-            // create new array for a certain discussion
-            // to take the place of arr2.
-            let arr = createNewArray();
-            // console.log(arr);
-            arr = [];
 
-            discuss.forEach(comment => {
-                // console.log(comment.parentElement.innerHTML);
-                // comment.parentElement.isContentEditable = true;
-                arr.push(comment.parentElement);
-                arr.sort((a,b) => b.lastElementChild.totalCount - 
-                a.lastElementChild.totalCount);
-                // console.log(arr)
-                // arr.push(comment);
-                // arr.sort((a,b)=> b.totalCount - a.totalCount);
-            })
-            arr2.push(arr);
-            // console.log(arr2);
-            let sortComment = [];
-            classA = 'a'
-            for(let i = 0; i < newComment.length; i++){
-                let getAllComment = document.querySelector(`.${classA}`);     
-                sortComment.push(getAllComment);
-                classA = classA + 'a';
-            }
-                let i = 0;
-                let j = 0;
-            console.log(arr2[i][j])
-            sortComment.forEach(comment => {
-                Array.from(comment.children).forEach(node => {
-                    if(node.classList.contains('comment-vote')){
-                        node.innerHTML = '';
-                    for(let j = 0; j < arr2[i].length; j++){
-                        const newComment = document.createElement('div');
-                        newComment.classList.add('comment-vote');
-                        newComment.innerHTML = arr[i][j].innerHTML;
-                        comment.appendChild(newComment);
-                    }
+
+        let discussions = []; //container for discussions 
+        // with modified comment voteCount
+        classA = 'a'
+        for(let i = 0; i < newDiscussion.length; i++){
+            let getAllComment = document.querySelectorAll(`.${classA}`); 
+            Array.from(getAllComment).forEach(discussion => {
+                discussions.push(discussion);
+            })    
+            classA = classA + 'a';
+        }
+
+
+        let arr = [];
+        let eachDissComments = [];
+        //Loop to get comments for each discussion
+        discussions.forEach(nodes => {
+            Array.from(nodes.children).forEach(node => {
+                if(node.classList.contains('comment-vote')){
+                    arr.push(node);
                 }
-                i++;
-            //     // arr2.forEach(comments => {
-            //     //     comments.forEach(commentItem => {
-            //     //         // const newComment = document.createElement('div');
-            //     //         // newComment.classList.add('comment-vote');
-            //     //         // newComment.innerHTML = commentItem.innerHTML;
-            //     //         // comment.appendChild(newComment);
-            //     //         // console.log(arr2);
-            //     //         // console.log(commentItem.innerHTML);
-            //     //     })
-            //     // })
             })
-            
-                
-            })
+            eachDissComments.push(arr);
+            arr = [];
         })
-        // console.log(arr2);
+        
+        // Sort discussion comments according to totalCount
+        eachDissComments.forEach(discuss => {
+            discuss.sort((a,b) => b.lastElementChild.totalCount - a.lastElementChild.totalCount);
+        })
+
+
+        /**
+         * Loop to go through each discussion and add the
+         * modified comment(arranged according to their votes).
+         */
+        for(let i = 0; i < discussions.length; i++) {
+            Array.from(discussions[i].children).forEach(node => {
+                if(node.classList.contains('comment-vote')){
+                    node.remove();
+                }
+            })
+            eachDissComments[i].forEach(comment => {
+                const newComment = document.createElement('div');
+                newComment.classList.add('comment-vote');
+                newComment.innerHTML = comment.innerHTML;
+                discussions[i].appendChild(newComment);
+            })                
+        }
+
+        //Reset the modified comment container.
+        eachDissComments = [];
     }, 10000);  
 }
 
+// Function runs every 10s.
 arrangeComment();
 
-// getComment;
-main.addEventListener('click', openComment);
-main.addEventListener('click', addComment);
-main.addEventListener('click', upDownVote);
 
+/**
+ * Below functions is to generate 'a' and 'a' to it
+ * everytime it is run
+ */
 let newDiscussion = '';
-let newComment = '';
-let newArray = '';
 function newDiscussions(){
     newDiscussion = newDiscussion + 'a'
     return newDiscussion;
 }
-function createNewArray(){
-    newArray = newArray + 'r';
-    return newArray;
-}
-function newComments(){
-    newComment = newComment + 'c';
-    return newComment;
-}
 
-// var numbers = [-4, 2, 5, 17, 3];
-// numbers.sort(function(a, b) {
-//   return b - a;
-// });
-// console.log(numbers);
+/**
+ * MAIN EVENT-LISTENERS
+ */
+main.addEventListener('click', openComment);
+main.addEventListener('click', addComment);
+main.addEventListener('click', upDownVote);
+
+
 
