@@ -4,6 +4,6 @@
 - Author: Kehinde Ojapa
 - Github: https://github.com/kehindeojapa-dev
 - Twitter: @OjapaDaniel
-- Demo Link:
+- Demo Link: https://kehindeojapa-dev.github.io/mini-Reddit
 
 ![reddit](./reddit-1.png)
